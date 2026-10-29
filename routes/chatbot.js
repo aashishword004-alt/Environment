@@ -1,7 +1,6 @@
 
 import express from "express";
 import { GoogleGenAI } from "@google/genai";
-
 const router = express.Router();
 
 const ai = new GoogleGenAI({
