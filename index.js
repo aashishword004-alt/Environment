@@ -1,26 +1,31 @@
-
-import express from "express";
+import express from "express"
 import dotenv from "dotenv";
-import chatRouter from "./routes/chat.js";
+import core from "cors";
+import env from './chatbot';
+import bodyparser from 'body-parser';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(core())
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended:true}));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-if (!process.env.GEMINI_API_KEY) {
-    throw new Error("GEMINI_API_KEY is missing from .env");
-}
+const Route = "/chat";
 
-app.get("/", (req, res) => {
-    res.send("Environment Chatbot API is running.");
-});
+app.post(Route + "/env" , async (req,res) =>{
+  try{
+    const {qun} = req.body;
+    if(!qun)
+    {
+        return res.status(400).json([{'erro' : 'yes'},{'success' : 'no'},{'message' : 'input is missig'}]);
+    }
+    const answer = await env(qun)
+    res.status(200).json([{'error' : 'no'},{'success' : 'yes'},{'message' : answer}]);
 
-app.use("/chat", chatRouter);
-
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+  }
+  catch(e){
+    console.log(e);
+  }
 });
