@@ -6,7 +6,7 @@ const ai = new  GoogleGenAI({
   apiKey : process.env.GEMINI_API_KEY
 });
 
-async function environmentChat(question) {
+async function envment(question) {
    try{
      const response = await ai.models.generateContent({
         model: "gemini-3.8-flash",
@@ -39,7 +39,6 @@ async function environmentChat(question) {
             `
         }
     });
-    console.log(response.text);
     return response.text;
    } 
    catch(e)
@@ -49,5 +48,4 @@ async function environmentChat(question) {
    
 }
 
-environmentChat('hiyy');
-
+export default envment;

@@ -1,7 +1,7 @@
 import express from "express"
 import dotenv from "dotenv";
 import core from "cors";
-import env from './chatbot';
+ import envment from "./chatbot.js";
 import bodyparser from 'body-parser';
 
 dotenv.config();
@@ -21,11 +21,16 @@ app.post(Route + "/env" , async (req,res) =>{
     {
         return res.status(400).json([{'erro' : 'yes'},{'success' : 'no'},{'message' : 'input is missig'}]);
     }
-    const answer = await env(qun)
-    res.status(200).json([{'error' : 'no'},{'success' : 'yes'},{'message' : answer}]);
-
+    const answer = await envment(qun)
+    return res.status(200).json([{'error' : 'no'},{'success' : 'yes'},{'message' : answer}]);
   }
   catch(e){
     console.log(e);
+    return res.status(500).json([{'error' : 'yes'},{'success' : 'no'},{'message' : 'somthing is wrong'}]);
   }
 });
+
+const port = 5000;
+app.listen(port ,() =>{
+    console.log(`server is runnig ${port}`)
+})
