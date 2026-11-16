@@ -25,7 +25,12 @@ app.post(Route + "/env" , async (req,res) =>{
     return res.status(200).json([{'error' : 'no'},{'success' : 'yes'},{'message' : answer}]);
   }
   catch(e){
-    console.log(e);
+  
+    if(e.status === 401)
+    {
+      return res.status(404).json([{'error' : 'yes'},{'success' : 'no'},{'message' : 'invalid key'}]);
+    }
+    console.log('error',e)
     return res.status(500).json([{'error' : 'yes'},{'success' : 'no'},{'message' : 'somthing is wrong'}]);
   }
 });

@@ -6,10 +6,12 @@ const ai = new  GoogleGenAI({
   apiKey : process.env.GEMINI_API_KEY
 });
 
+// console.log(process.env.GEMINI_API_KEY)
+
 async function envment(question) {
    try{
      const response = await ai.models.generateContent({
-        model: "gemini-3.8-flash",
+        model: "gemini-3.5-flash-lite",
         contents: question,
 
         config: {
@@ -43,7 +45,12 @@ async function envment(question) {
    } 
    catch(e)
    {
-    console.log(e)
+    if(staus === 503)
+    {
+      throw e
+    }
+
+    throw e
    }
    
 }
